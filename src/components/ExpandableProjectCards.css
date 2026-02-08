@@ -344,22 +344,52 @@
 .card-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 28px;
+  gap: 10px;
+  padding: 14px 32px;
   background: linear-gradient(135deg, #A855F7 0%, #8B5CF6 100%);
   border: none;
   border-radius: 100px;
   color: #FAFAFA;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 15px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.card-link:hover::before {
+  left: 100%;
 }
 
 .card-link:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(168, 85, 247, 0.5);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 16px 40px rgba(168, 85, 247, 0.6);
+  background: linear-gradient(135deg, #B866FF 0%, #9D5FFF 100%);
+}
+
+.card-link svg {
+  transition: transform 0.3s ease;
+}
+
+.card-link:hover svg {
+  transform: translateX(4px);
+}
+
+.card-link:active {
+  transform: translateY(-2px) scale(1.02);
 }
 
 /* Navigation Buttons */

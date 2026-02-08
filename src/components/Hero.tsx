@@ -96,12 +96,12 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="scroll-indicator">
+      {/* <div className="scroll-indicator">
         <div className="scroll-mouse">
           <div className="scroll-wheel" />
         </div>
         <span>Scroll to explore</span>
-      </div>
+      </div> */}
     </div>
   );
 };

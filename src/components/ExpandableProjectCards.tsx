@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './ExpandableProjectCards.css';
 import Lightbox from './Lightbox';
+import ProjectGalleryModal from './ProjectGalleryModal';
 
 interface Project {
   id: number;
@@ -8,7 +9,14 @@ interface Project {
   description: string;
   image: string;
   tags?: string[];
-  link?: string;
+  gallery?: string[];
+  client?: string;
+  date?: string;
+  location?: string;
+  attendees?: string;
+  objective?: string;
+  deliverables?: string[];
+  results?: string[];
 }
 
 const defaultProjects: Project[] = [
@@ -18,7 +26,30 @@ const defaultProjects: Project[] = [
     description: 'End-to-end event management for Coca Cola\'s Annual Business Conference including staging, AV production, and attendee experience.',
     image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
     tags: ['Event Management', 'Corporate', 'Coca Cola'],
-    link: '#coca-cola'
+    gallery: [
+      'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80',
+      'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&q=80',
+      'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=800&q=80'
+    ],
+    client: 'Coca-Cola Company',
+    date: 'January 2025',
+    location: 'Colombo, Sri Lanka',
+    attendees: '500+ Participants',
+    objective: 'To create an immersive and engaging annual sales conference that motivates the sales team, showcases new products, and celebrates achievements while reinforcing brand values.',
+    deliverables: [
+      'Complete staging and AV production',
+      'Registration and attendee management',
+      'Branded conference materials',
+      'Live streaming and recording',
+      'Entertainment and team activities',
+      'Catering and hospitality services'
+    ],
+    results: [
+      '98% attendee satisfaction rate',
+      'Seamless execution with zero technical issues',
+      'Positive feedback on staging and production quality',
+      'Increased team motivation and brand engagement'
+    ]
   },
   {
     id: 2,
@@ -26,7 +57,30 @@ const defaultProjects: Project[] = [
     description: 'Festive brand activation featuring a custom-designed Christmas truck touring multiple locations with sampling and engagement activities.',
     image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&q=80',
     tags: ['BTL Activation', 'Christmas', 'Brand Experience'],
-    link: '#elephant-house'
+    gallery: [
+      'https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=800&q=80',
+      'https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=800&q=80',
+      'https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?w=800&q=80'
+    ],
+    client: 'Elephant House',
+    date: 'December 2024',
+    location: 'Multiple Locations - Colombo, Kandy, Galle',
+    attendees: '15,000+ Consumers Engaged',
+    objective: 'Create a memorable Christmas brand experience with a custom-designed truck activation to increase brand visibility, drive product sampling, and strengthen emotional connection with consumers during the festive season.',
+    deliverables: [
+      'Custom Christmas truck design and build',
+      'Multi-location tour coordination',
+      'Product sampling and distribution',
+      'Photo opportunity setups',
+      'Brand ambassador team training',
+      'Social media content creation'
+    ],
+    results: [
+      '15,000+ direct consumer engagements',
+      '10,000+ product samples distributed',
+      'High social media engagement with user-generated content',
+      'Increased brand recall during festive season'
+    ]
   },
   {
     id: 3,
@@ -34,7 +88,30 @@ const defaultProjects: Project[] = [
     description: 'Nationwide merchant activation campaign for HNB SOLO including MT activations, food festivals, and QR payment awareness programs.',
     image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
     tags: ['BTL Activation', 'Banking', 'HNB'],
-    link: '#hnb-solo'
+    gallery: [
+      'https://images.unsplash.com/photo-1556742111-a301076d9d18?w=800&q=80',
+      'https://images.unsplash.com/photo-1556742111-a301076d9d18?w=800&q=80',
+      'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80'
+    ],
+    client: 'Hatton National Bank',
+    date: 'Throughout 2024',
+    location: 'Nationwide - Sri Lanka',
+    attendees: '50,000+ Merchant Interactions',
+    objective: 'Drive QR payment adoption among merchants and consumers through strategic activations at modern trade outlets, food festivals, and merchant locations, increasing HNB SOLO wallet registrations and transaction volume.',
+    deliverables: [
+      'Modern trade outlet activations',
+      'Food festival booth setups',
+      'Merchant training and onboarding',
+      'QR code distribution and setup',
+      'Consumer awareness campaigns',
+      'Promotional material distribution'
+    ],
+    results: [
+      '50,000+ merchant interactions',
+      '25% increase in QR payment transactions',
+      'Significant growth in SOLO wallet registrations',
+      'Enhanced merchant and consumer awareness of digital payments'
+    ]
   },
   {
     id: 4,
@@ -118,6 +195,7 @@ const ExpandableProjectCards: React.FC<ExpandableProjectCardsProps> = ({ project
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const nextProject = () => {
     setCurrentIndex((prev) => (prev + 1) % projects.length);
@@ -239,10 +317,20 @@ const ExpandableProjectCards: React.FC<ExpandableProjectCardsProps> = ({ project
                   </div>
                 )}
 
-                {project.link && position === 0 && (
-                  <a href={project.link} className="card-link" onClick={(e) => e.stopPropagation()}>
-                    View Project →
-                  </a>
+                {position === 0 && (
+                  <button
+                    className="card-link"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProject(project);
+                      setIsAutoPlaying(false);
+                    }}
+                  >
+                    <span>View Project</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </button>
                 )}
               </div>
             </div>
@@ -296,6 +384,15 @@ const ExpandableProjectCards: React.FC<ExpandableProjectCardsProps> = ({ project
         image={lightboxImage?.src || ''}
         title={lightboxImage?.title}
       />
+
+      {/* Project Gallery Modal */}
+      {selectedProject && (
+        <ProjectGalleryModal
+          project={selectedProject}
+          isOpen={!!selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
     </section>
   );
 };

@@ -170,12 +170,12 @@ const About: React.FC = () => {
       <div className="about-cta">
         <h3>Ready to work with us?</h3>
         <p>Let's create something extraordinary together.</p>
-        <button className="about-cta-button">
+        <a href="mailto:info@candidevents.lk?subject=Let's Work Together - Candid Events" className="about-cta-button">
           <span>Get In Touch</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
-        </button>
+        </a>
       </div>
     </div>
   );

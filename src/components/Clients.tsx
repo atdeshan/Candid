@@ -1,17 +1,27 @@
 import React from 'react';
 import './Clients.css';
+import Anchor from '../assets/clients/anchor.png';
+import CocaCola from '../assets/clients/coca_cola.png';
+import ElephantHouse from '../assets/clients/elepnat_house.jpg';
+import Ginger from '../assets/clients/egb.png';
+import HNB from '../assets/clients/hnb.jpg';
+import Hemas from '../assets/clients/hemas.jpeg';
+import LankaSoy from '../assets/clients/lanka_soy.png';
+import Maliban from '../assets/clients/maliban.jpg.webp';
+import Sting from '../assets/clients/sting.jpeg';
+import Zesta from '../assets/clients/zesta.png';
 
 const clients = [
-  { name: 'Coca Cola', logo: 'CC' },
-  { name: 'Maliban', logo: 'M' },
-  { name: 'Elephant House', logo: 'EH' },
-  { name: 'HNB', logo: 'HNB' },
-  { name: 'Anchor', logo: 'A' },
-  { name: 'Zesta', logo: 'Z' },
-  { name: 'Ginger', logo: 'G' },
-  { name: 'Hemas', logo: 'H' },
-  { name: 'Sting', logo: 'S' },
-  { name: 'Lanka Soy', logo: 'LS' },
+  { name: 'Coca Cola', logo: 'CC', image: CocaCola },
+  { name: 'Maliban', logo: 'M', image: Maliban },
+  { name: 'Elephant House', logo: 'EH', image: ElephantHouse },
+  { name: 'HNB', logo: 'HNB', image: HNB },
+  { name: 'Anchor', logo: 'A', image: Anchor },
+  { name: 'Zesta', logo: 'Z', image: Zesta },
+  { name: 'Ginger', logo: 'G', image: Ginger },
+  { name: 'Hemas', logo: 'H', image: Hemas },
+  { name: 'Sting', logo: 'S', image: Sting },
+  { name: 'Lanka Soy', logo: 'LS', image: LankaSoy },
 ];
 
 const Clients: React.FC = () => {
@@ -26,7 +36,7 @@ const Clients: React.FC = () => {
             {clients.map((client, index) => (
               <div key={`first-${index}`} className="client-item">
                 <div className="client-logo">
-                  <span className="client-initial">{client.logo}</span>
+                  <img src={client.image} alt={client.name} />
                 </div>
                 <span className="client-name">{client.name}</span>
               </div>
@@ -35,7 +45,7 @@ const Clients: React.FC = () => {
             {clients.map((client, index) => (
               <div key={`second-${index}`} className="client-item">
                 <div className="client-logo">
-                  <span className="client-initial">{client.logo}</span>
+                  <img src={client.image} alt={client.name} />
                 </div>
                 <span className="client-name">{client.name}</span>
               </div>
