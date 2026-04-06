@@ -1,0 +1,67 @@
+/* ============================================
+   Scroll Reveal Animation System
+   ============================================ */
+
+/* Fade up (default) */
+.sr-hidden {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sr-hidden.sr-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Slide from left */
+.sr-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sr-left.sr-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide from right */
+.sr-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sr-right.sr-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale in */
+.sr-scale {
+  opacity: 0;
+  transform: scale(0.88);
+  transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sr-scale.sr-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sr-hidden,
+  .sr-left,
+  .sr-right,
+  .sr-scale {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

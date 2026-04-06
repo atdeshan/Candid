@@ -172,7 +172,7 @@ const Services: React.FC = () => {
     fontFamily: "'DM Sans', sans-serif",
     padding: '120px 5%',
     position: 'relative',
-    overflow: 'hidden'
+    overflow: 'clip'
   };
 
   return (
@@ -196,122 +196,167 @@ const Services: React.FC = () => {
 
       {/* Header */}
       <div className="services-header">
-        <p className="services-label">What We Do</p>
-        <h2 className="services-title">
+        <p className="services-label sr-hidden"  style={{ transitionDelay: '0s' }}>What We Do</p>
+        <h2 className="services-title sr-hidden" style={{ transitionDelay: '0.1s' }}>
           Comprehensive Event
           <br />
           <span className="gradient-text">Solutions</span>
         </h2>
-        <p className="services-description">
+        <p className="services-description sr-hidden" style={{ transitionDelay: '0.2s' }}>
           From concept to execution, we handle every aspect of your event with
           <br className="hide-mobile" />
           meticulous attention to detail and creative excellence.
         </p>
       </div>
 
-      {/* Services Grid */}
-      <div className="services-grid">
-        {services.map((service) => {
+      {/* Services Bento Grid */}
+      <div className="services-bento">
+        {services.map((service, index) => {
           const isHovered = hoveredId === service.id;
+          const isFeatured = index === 0 || index === 5;
 
           return (
             <div
               key={service.id}
-              className="service-card"
-              onMouseEnter={() => setHoveredId(service.id)}
-              onMouseLeave={() => setHoveredId(null)}
-              style={{
-                borderColor: isHovered ? `${service.color}50` : '#262626',
-                transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
-                boxShadow: isHovered
-                  ? `0 30px 60px -20px ${service.color}40`
-                  : '0 0 0 0 transparent'
-              }}
+              className={`sr-hidden ${isFeatured ? 'bento-wide' : ''}`}
+              style={{ transitionDelay: `${0.1 + index * 0.08}s` }}
             >
-              {/* Gradient orb */}
-              <div
-                className="service-orb"
-                style={{
-                  background: `radial-gradient(circle, ${service.color}15 0%, transparent 70%)`,
-                  transform: isHovered ? 'scale(1.5)' : 'scale(1)',
-                  opacity: isHovered ? 1 : 0.5
-                }}
-              />
-
-              {/* Icon */}
-              <div
-                className="service-icon"
-                style={{
-                  background: isHovered ? `${service.color}20` : 'rgba(168, 85, 247, 0.08)',
-                  borderColor: isHovered ? `${service.color}50` : 'rgba(168, 85, 247, 0.15)',
-                  transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)'
-                }}
-              >
-                <span style={{ fontSize: '32px' }}>{service.icon}</span>
-              </div>
-
-              {/* Content */}
-              <h3
-                className="service-title"
-                style={{
-                  color: isHovered ? service.color : '#1A1A1A'
-                }}
-              >
-                {service.title}
-              </h3>
-
-              <p className="service-description">{service.description}</p>
-
-              {/* Features */}
-              <ul className="service-features">
-                {service.features.map((feature, index) => (
-                  <li key={index}>
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke={isHovered ? service.color : '#525252'}
-                      strokeWidth="2"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Learn more link */}
-              <div
-                className="service-link"
-                style={{
-                  color: isHovered ? service.color : '#737373',
-                  cursor: 'pointer'
-                }}
-                onClick={() => setSelectedService(service)}
-              >
-                Learn more
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
+              {isFeatured ? (
+                /* ── Featured wide card ── */
+                <div
+                  className="service-card service-card--featured"
+                  onMouseEnter={() => setHoveredId(service.id)}
+                  onMouseLeave={() => setHoveredId(null)}
                   style={{
-                    transform: isHovered ? 'translateX(4px)' : 'translateX(0)'
+                    borderColor: isHovered ? `${service.color}60` : `${service.color}25`,
+                    background: isHovered
+                      ? `linear-gradient(135deg, ${service.color}10 0%, #FFFFFF 60%)`
+                      : `linear-gradient(135deg, ${service.color}06 0%, #FFFFFF 60%)`,
+                    boxShadow: isHovered
+                      ? `0 30px 60px -20px ${service.color}35`
+                      : '0 2px 8px rgba(0,0,0,0.04)'
                   }}
                 >
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </div>
+                  {/* orb */}
+                  <div className="service-orb" style={{
+                    background: `radial-gradient(circle, ${service.color}20 0%, transparent 70%)`,
+                    transform: isHovered ? 'scale(1.8)' : 'scale(1)',
+                    opacity: isHovered ? 1 : 0.6
+                  }} />
+
+                  {/* Left column */}
+                  <div className="featured-left">
+                    <div className="featured-tag" style={{ color: service.color, background: `${service.color}12`, borderColor: `${service.color}30` }}>
+                      Featured Service
+                    </div>
+                    <div
+                      className="service-icon service-icon--lg"
+                      style={{
+                        background: isHovered ? `${service.color}20` : `${service.color}10`,
+                        borderColor: isHovered ? `${service.color}50` : `${service.color}25`,
+                        transform: isHovered ? 'scale(1.08) rotate(4deg)' : 'scale(1) rotate(0deg)'
+                      }}
+                    >
+                      <span style={{ fontSize: '40px' }}>{service.icon}</span>
+                    </div>
+                    <h3 className="service-title" style={{ color: isHovered ? service.color : '#1A1A1A' }}>
+                      {service.title}
+                    </h3>
+                    <p className="service-description">{service.description}</p>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="featured-divider" style={{ background: `${service.color}18` }} />
+
+                  {/* Right column */}
+                  <div className="featured-right">
+                    <ul className="service-features">
+                      {service.features.map((feature, i) => (
+                        <li key={i}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke={isHovered ? service.color : '#525252'} strokeWidth="2">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div
+                      className="service-link"
+                      style={{ color: isHovered ? service.color : '#737373', cursor: 'pointer' }}
+                      onClick={() => setSelectedService(service)}
+                    >
+                      Learn more
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" strokeWidth="2"
+                        style={{ transform: isHovered ? 'translateX(4px)' : 'translateX(0)' }}>
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* ── Normal card ── */
+                <div
+                  className="service-card"
+                  onMouseEnter={() => setHoveredId(service.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                  style={{
+                    borderColor: isHovered ? `${service.color}50` : '#E5E5E5',
+                    transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
+                    boxShadow: isHovered
+                      ? `0 30px 60px -20px ${service.color}40`
+                      : '0 2px 8px rgba(0,0,0,0.04)'
+                  }}
+                >
+                  <div className="service-orb" style={{
+                    background: `radial-gradient(circle, ${service.color}15 0%, transparent 70%)`,
+                    transform: isHovered ? 'scale(1.5)' : 'scale(1)',
+                    opacity: isHovered ? 1 : 0.5
+                  }} />
+                  <div className="service-icon" style={{
+                    background: isHovered ? `${service.color}20` : 'rgba(168, 85, 247, 0.08)',
+                    borderColor: isHovered ? `${service.color}50` : 'rgba(168, 85, 247, 0.15)',
+                    transform: isHovered ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)'
+                  }}>
+                    <span style={{ fontSize: '32px' }}>{service.icon}</span>
+                  </div>
+                  <h3 className="service-title" style={{ color: isHovered ? service.color : '#1A1A1A' }}>
+                    {service.title}
+                  </h3>
+                  <p className="service-description">{service.description}</p>
+                  <ul className="service-features">
+                    {service.features.map((feature, i) => (
+                      <li key={i}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                          stroke={isHovered ? service.color : '#525252'} strokeWidth="2">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div
+                    className="service-link"
+                    style={{ color: isHovered ? service.color : '#737373', cursor: 'pointer' }}
+                    onClick={() => setSelectedService(service)}
+                  >
+                    Learn more
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" strokeWidth="2"
+                      style={{ transform: isHovered ? 'translateX(4px)' : 'translateX(0)' }}>
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
       </div>
 
       {/* Bottom CTA */}
-      <div className="services-cta">
+      <div className="services-cta sr-hidden" style={{ transitionDelay: '0.1s' }}>
         <h3>Have a unique event in mind?</h3>
         <p>We specialize in creating custom experiences tailored to your vision and goals.</p>
         <a href="mailto:info@candidevents.lk?subject=Project Inquiry - Candid Events" className="cta-button">

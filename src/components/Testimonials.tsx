@@ -86,20 +86,21 @@ const Testimonials: React.FC = () => {
       <div className="testimonials-container">
         {/* Header */}
         <div className="testimonials-header">
-          <p className="testimonials-label">Testimonials</p>
-          <h2 className="testimonials-title">
+          <p className="testimonials-label sr-hidden" style={{ transitionDelay: '0s' }}>Testimonials</p>
+          <h2 className="testimonials-title sr-hidden" style={{ transitionDelay: '0.12s' }}>
             What Our Clients
             <br />
             <span className="gradient-text">Say About Us</span>
           </h2>
-          <p className="testimonials-description">
+          <p className="testimonials-description sr-hidden" style={{ transitionDelay: '0.24s' }}>
             Don't just take our word for it - hear from the people we've worked with
           </p>
         </div>
 
         {/* Testimonials Carousel */}
         <div
-          className="testimonials-carousel"
+          className="testimonials-carousel sr-hidden"
+          style={{ transitionDelay: '0.3s' }}
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
@@ -182,7 +183,7 @@ const Testimonials: React.FC = () => {
         </div>
 
         {/* Google Reviews Badge */}
-        <div className="google-reviews-badge">
+        <div className="google-reviews-badge sr-hidden" style={{ transitionDelay: '0.1s' }}>
           <div className="google-reviews-content">
             <div className="google-logo">
               <svg width="24" height="24" viewBox="0 0 24 24">

@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import './ExpandableProjectCards.css';
 import Lightbox from './Lightbox';
 import ProjectGalleryModal from './ProjectGalleryModal';
+import { galleryImages } from '../data/galleryData';
 
 interface Project {
   id: number;
   title: string;
   description: string;
   image: string;
+  /** Key matching a folder in src/assets/gallery/ and an entry in galleryData.ts */
+  galleryKey?: string;
   tags?: string[];
   gallery?: string[];
   client?: string;
@@ -17,6 +20,7 @@ interface Project {
   objective?: string;
   deliverables?: string[];
   results?: string[];
+  link?: string;
 }
 
 const defaultProjects: Project[] = [
@@ -24,9 +28,10 @@ const defaultProjects: Project[] = [
     id: 1,
     title: 'Coca Cola Annual Sales Conference 2025',
     description: 'End-to-end event management for Coca Cola\'s Annual Business Conference including staging, AV production, and attendee experience.',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
+    galleryKey: 'coca-cola-annual-sales-conference-2025',
+    image: galleryImages['coca-cola-annual-sales-conference-2025']?.[0] ?? 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
     tags: ['Event Management', 'Corporate', 'Coca Cola'],
-    gallery: [
+    gallery: galleryImages['coca-cola-annual-sales-conference-2025']?.slice(1) ?? [
       'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80',
       'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&q=80',
       'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=800&q=80'
@@ -55,9 +60,10 @@ const defaultProjects: Project[] = [
     id: 2,
     title: 'Elephant House Christmas Truck Activation',
     description: 'Festive brand activation featuring a custom-designed Christmas truck touring multiple locations with sampling and engagement activities.',
-    image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&q=80',
+    galleryKey: 'elephant-house-christmas-truck-activation',
+    image: galleryImages['elephant-house-christmas-truck-activation']?.[0] ?? 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=800&q=80',
     tags: ['BTL Activation', 'Christmas', 'Brand Experience'],
-    gallery: [
+    gallery: galleryImages['elephant-house-christmas-truck-activation']?.slice(1) ?? [
       'https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=800&q=80',
       'https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=800&q=80',
       'https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?w=800&q=80'
@@ -86,10 +92,10 @@ const defaultProjects: Project[] = [
     id: 3,
     title: 'HNB SOLO Merchant Activation',
     description: 'Nationwide merchant activation campaign for HNB SOLO including MT activations, food festivals, and QR payment awareness programs.',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
+    galleryKey: 'hnb-solo-merchant-activation',
+    image: galleryImages['hnb-solo-merchant-activation']?.[0] ?? 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
     tags: ['BTL Activation', 'Banking', 'HNB'],
-    gallery: [
-      'https://images.unsplash.com/photo-1556742111-a301076d9d18?w=800&q=80',
+    gallery: galleryImages['hnb-solo-merchant-activation']?.slice(1) ?? [
       'https://images.unsplash.com/photo-1556742111-a301076d9d18?w=800&q=80',
       'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80'
     ],
@@ -117,7 +123,9 @@ const defaultProjects: Project[] = [
     id: 4,
     title: 'Maliban Nutrifix Mall Activation',
     description: 'Interactive mall activation campaign for Maliban Nutrifix featuring product sampling, engagement zones, and brand experience.',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
+    galleryKey: 'maliban-nutrifix-mall-activation',
+    image: galleryImages['maliban-nutrifix-mall-activation']?.[0] ?? 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
+    gallery: galleryImages['maliban-nutrifix-mall-activation']?.slice(1),
     tags: ['Mall Activation', 'FMCG', 'Maliban'],
     link: '#maliban'
   },
@@ -125,7 +133,9 @@ const defaultProjects: Project[] = [
     id: 5,
     title: 'Anchor North & East SMMT Campaign',
     description: 'Strategic SMMT activation across Northern and Eastern regions with door-to-door engagement and sampling operations.',
-    image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80',
+    galleryKey: 'anchor-north-east-smmt-campaign',
+    image: galleryImages['anchor-north-east-smmt-campaign']?.[0] ?? 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80',
+    gallery: galleryImages['anchor-north-east-smmt-campaign']?.slice(1),
     tags: ['SMMT', 'Regional', 'Anchor'],
     link: '#anchor'
   },
@@ -133,7 +143,9 @@ const defaultProjects: Project[] = [
     id: 6,
     title: 'Coca Cola Award Ceremony 2024',
     description: 'Prestigious award ceremony celebrating excellence with stunning stage design, lighting, and entertainment production.',
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+    galleryKey: 'coca-cola-award-ceremony-2024',
+    image: galleryImages['coca-cola-award-ceremony-2024']?.[0] ?? 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+    gallery: galleryImages['coca-cola-award-ceremony-2024']?.slice(1),
     tags: ['Award Ceremony', 'Corporate', 'Coca Cola'],
     link: '#coca-cola-awards'
   },
@@ -141,7 +153,9 @@ const defaultProjects: Project[] = [
     id: 7,
     title: 'Zesta Sunshine Awrudu Celebration',
     description: 'Traditional Awrudu celebration featuring Zesta and Watawala sampling with cultural activities and brand engagement.',
-    image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80',
+    galleryKey: 'zesta-sunshine-awrudu-celebration',
+    image: galleryImages['zesta-sunshine-awrudu-celebration']?.[0] ?? 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80',
+    gallery: galleryImages['zesta-sunshine-awrudu-celebration']?.slice(1),
     tags: ['Cultural Event', 'Sampling', 'Zesta'],
     link: '#zesta-awrudu'
   },
@@ -149,7 +163,9 @@ const defaultProjects: Project[] = [
     id: 8,
     title: 'Ginger Office & Town Activations',
     description: 'Multi-location activation campaign across offices, garment factories, institutes, and town centers for maximum brand reach.',
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80',
+    galleryKey: 'ginger-office-town-activations',
+    image: galleryImages['ginger-office-town-activations']?.[0] ?? 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80',
+    gallery: galleryImages['ginger-office-town-activations']?.slice(1),
     tags: ['Office Activation', 'Town Activation', 'Ginger'],
     link: '#ginger'
   },
@@ -157,7 +173,9 @@ const defaultProjects: Project[] = [
     id: 9,
     title: 'Xtra Cricket Tournament 2024',
     description: 'High-energy brand activation at the SL vs Afghanistan One Day Cricket Tournament with fan engagement and sampling.',
-    image: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=800&q=80',
+    galleryKey: 'xtra-cricket-tournament-2024',
+    image: galleryImages['xtra-cricket-tournament-2024']?.[0] ?? 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=800&q=80',
+    gallery: galleryImages['xtra-cricket-tournament-2024']?.slice(1),
     tags: ['Sports Event', 'Cricket', 'Xtra'],
     link: '#xtra-cricket'
   },
@@ -165,7 +183,9 @@ const defaultProjects: Project[] = [
     id: 10,
     title: 'Hemas Beauty Drive Campaign',
     description: 'Beauty-focused activation campaign with product demonstrations, sampling, and personalized beauty consultations.',
-    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80',
+    galleryKey: 'hemas-beauty-drive-campaign',
+    image: galleryImages['hemas-beauty-drive-campaign']?.[0] ?? 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80',
+    gallery: galleryImages['hemas-beauty-drive-campaign']?.slice(1),
     tags: ['Beauty', 'BTL Activation', 'Hemas'],
     link: '#hemas-beauty'
   },
@@ -173,7 +193,9 @@ const defaultProjects: Project[] = [
     id: 11,
     title: 'Coke Buddy Launch 2024',
     description: 'Exciting product launch event for Coca Cola\'s Coke Buddy featuring immersive brand experience and media engagement.',
-    image: 'https://images.unsplash.com/photo-1561489413-985b06da5bee?w=800&q=80',
+    galleryKey: 'coke-buddy-launch-2024',
+    image: galleryImages['coke-buddy-launch-2024']?.[0] ?? 'https://images.unsplash.com/photo-1561489413-985b06da5bee?w=800&q=80',
+    gallery: galleryImages['coke-buddy-launch-2024']?.slice(1),
     tags: ['Product Launch', 'Corporate', 'Coca Cola'],
     link: '#coke-buddy'
   },
@@ -181,7 +203,9 @@ const defaultProjects: Project[] = [
     id: 12,
     title: 'Earth Essence Mothers Day Celebration',
     description: 'Heartwarming Mothers Day activation with gift sampling, photo opportunities, and special tributes to mothers.',
-    image: 'https://images.unsplash.com/photo-1462275646964-a0e3571f4f3f?w=800&q=80',
+    galleryKey: 'earth-essence-mothers-day-celebration',
+    image: galleryImages['earth-essence-mothers-day-celebration']?.[0] ?? 'https://images.unsplash.com/photo-1462275646964-a0e3571f4f3f?w=800&q=80',
+    gallery: galleryImages['earth-essence-mothers-day-celebration']?.slice(1),
     tags: ['Seasonal', 'Mall Activation', 'Earth Essence'],
     link: '#earth-essence'
   }
@@ -196,6 +220,10 @@ const ExpandableProjectCards: React.FC<ExpandableProjectCardsProps> = ({ project
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+
+  const markLoaded = (src: string) =>
+    setLoadedImages((prev) => new Set(prev).add(src));
 
   const nextProject = () => {
     setCurrentIndex((prev) => (prev + 1) % projects.length);
@@ -293,7 +321,17 @@ const ExpandableProjectCards: React.FC<ExpandableProjectCardsProps> = ({ project
                   }
                 }}
               >
-                <img src={project.image} alt={project.title} className="card-image" />
+                {!loadedImages.has(project.image) && (
+                  <div className="card-image-shimmer" />
+                )}
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className={`card-image ${loadedImages.has(project.image) ? 'card-image--loaded' : ''}`}
+                  loading={position === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  onLoad={() => markLoaded(project.image)}
+                />
                 <div className="card-overlay"></div>
                 {position === 0 && (
                   <div className="image-zoom-hint">
@@ -317,21 +355,6 @@ const ExpandableProjectCards: React.FC<ExpandableProjectCardsProps> = ({ project
                   </div>
                 )}
 
-                {position === 0 && (
-                  <button
-                    className="card-link"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedProject(project);
-                      setIsAutoPlaying(false);
-                    }}
-                  >
-                    <span>View Project</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                )}
               </div>
             </div>
           ))}

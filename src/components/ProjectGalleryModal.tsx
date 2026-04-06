@@ -165,6 +165,8 @@ const ProjectGalleryModal: React.FC<ProjectGalleryModalProps> = ({ project, isOp
             <img
               src={allImages[currentImageIndex]}
               alt={`${project.title} - Image ${currentImageIndex + 1}`}
+              loading="eager"
+              decoding="async"
               onLoad={() => setImageLoaded(true)}
               style={{
                 position: 'absolute',
@@ -173,11 +175,11 @@ const ProjectGalleryModal: React.FC<ProjectGalleryModalProps> = ({ project, isOp
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
+                objectPosition: 'center top',
                 opacity: imageLoaded && !isTransitioning ? 1 : 0,
-                transition: 'opacity 0.5s ease-in-out',
-                transform: isTransitioning ? 'scale(1.05)' : 'scale(1)',
-                transitionProperty: 'opacity, transform',
-                transitionDuration: '0.5s'
+                transition: 'opacity 0.5s ease-in-out, transform 0.5s ease-in-out',
+                transform: isTransitioning ? 'scale(1.04)' : 'scale(1)',
+                filter: 'contrast(1.08) saturate(1.12)',
               }}
             />
 

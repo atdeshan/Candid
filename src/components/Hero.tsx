@@ -1,8 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { CSSProperties } from 'react';
 import './Hero.css';
 
+const statTargets = [
+  { target: 200, suffix: '+', label: 'Events' },
+  { target: 500, suffix: 'K+', label: 'Attendees' },
+  { target: 15, suffix: '', label: 'Countries' },
+  { target: 98, suffix: '%', label: 'Satisfaction' },
+];
+
 const Hero: React.FC = () => {
+  const [counts, setCounts] = useState([0, 0, 0, 0]);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated.current) {
+          hasAnimated.current = true;
+          const duration = 2000;
+          const start = performance.now();
+
+          const animate = (now: number) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCounts(statTargets.map((s) => Math.round(eased * s.target)));
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+
+          requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const containerStyle: CSSProperties = {
     minHeight: '100vh',
     background: 'linear-gradient(135deg, #000000 0%, #1A0A2E 50%, #000000 100%)',
@@ -72,26 +112,18 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Stats */}
-        <div className="hero-stats">
-          <div className="stat-item fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="stat-value">200+</div>
-            <div className="stat-label">Events</div>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <div className="stat-value">500K+</div>
-            <div className="stat-label">Attendees</div>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item fade-in-up" style={{ animationDelay: '0.6s' }}>
-            <div className="stat-value">15</div>
-            <div className="stat-label">Countries</div>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item fade-in-up" style={{ animationDelay: '0.8s' }}>
-            <div className="stat-value">98%</div>
-            <div className="stat-label">Satisfaction</div>
-          </div>
+        <div className="hero-stats" ref={statsRef}>
+          {statTargets.map((stat, i) => (
+            <React.Fragment key={stat.label}>
+              {i > 0 && <div className="stat-divider" />}
+              <div className="stat-item">
+                <div className="stat-value">
+                  {counts[i]}{stat.suffix}
+                </div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            </React.Fragment>
+          ))}
         </div>
       </div>
 

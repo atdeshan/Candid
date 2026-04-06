@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import "./scroll-animations.css";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import Clients from "./components/Clients";
@@ -21,6 +22,34 @@ function App() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Global scroll reveal observer
+  useEffect(() => {
+    const selector = ".sr-hidden, .sr-left, .sr-right, .sr-scale";
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("sr-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0 }
+    );
+
+    // Wait one frame so layout is complete, then observe
+    const raf = requestAnimationFrame(() => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((el) => observer.observe(el));
+    });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+    };
   }, []);
 
   const scrollToTop = () => {
